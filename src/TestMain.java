@@ -1,11 +1,14 @@
 import java.sql.Connection;
 
+import net.sf.json.JSONObject;
 import model.Administer;
+import model.Topic;
 import model.User;
 import dao.impl.AdminDaoImpl;
 import dao.impl.UserDaoImpl;
 import utils.DBUtil;
 import utils.statics.DateUtil;
+import utils.statics.JsonUtil;
 import utils.statics.ParseMD5;
 
 
@@ -42,6 +45,18 @@ public class TestMain {
 //		}else{
 //			System.out.println("登录失败");
 //		}
+		Topic tpc = new Topic();
+		tpc.setContent("大到小日本鬼子，草饭他们的娘萌");
+		tpc.setPeople_num(2333);
+		tpc.setPub_time("2016-12-11");
+		tpc.setTpc_name("操日本");
+		JSONObject json = JsonUtil.object2JsonObj(tpc);
+		JSONObject json2 = JSONObject.fromObject(tpc);
+		System.out.println(json.toString());
+		System.out.println(json2.toString());
+		Topic tpcTopic = (Topic) JsonUtil.jsonString2Object(json.toString(),Topic.class);
+		Topic tpcTopic2 = (Topic) JSONObject.toBean(json, Topic.class);
+		System.out.println(tpcTopic.getContent()+","+tpcTopic2.getPub_time());
 	}
 
 }
