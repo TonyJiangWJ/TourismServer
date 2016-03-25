@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import utils.statics.DateUtil;
+import utils.statics.JsonUtil;
 import dao.impl.KnowledgeDaoImpl;
 
 public class KnowledgeDaoImplTest {
@@ -35,6 +36,7 @@ public class KnowledgeDaoImplTest {
 				+ "们的基本原理中走出来修 修个几把今天是日本大热吧从他们的基本原理中走出来修 修个几把今天是日本大热吧从他们的基本原理中走出来修 修个几把");
 		nlg.setPub_time(DateUtil.GetDateString());
 		nlg.setNlg_name("日本狗");
+		System.out.println(JsonUtil.object2JsonString(nlg));
 	}
 
 	@After
@@ -51,20 +53,29 @@ public class KnowledgeDaoImplTest {
 	}
 	
 	@Test
-	public void testDelete(){
-		if(kdi.DeleteNLG(nlg)){
-			System.out.println("Delete SUCCESS");
+	public void testChange() {
+		if(kdi.AdjustNLG(nlg)){
+			System.out.println("ADJUST SUCCESS");
 		}else{
-			System.out.println("Delete FAIL");
+			System.out.println("ADJUST FAIL");
 		}
 	}
+	
+//	@Test
+//	public void testDelete(){
+//		if(kdi.DeleteNLG(nlg)){
+//			System.out.println("Delete SUCCESS");
+//		}else{
+//			System.out.println("Delete FAIL");
+//		}
+//	}
 	
 	@Test
 	public void testList(){
 		nlg_list = kdi.listKnowledges();
 		if(nlg_list!=null){
 			for(int i=0;i<nlg_list.size();i++){
-				System.out.println("名称："+nlg_list.get(i).getNlg_name()+" 创建时间："+nlg_list.get(i).getNlg_name()
+				System.out.println("名称："+nlg_list.get(i).getNlg_name()+" 创建时间："+nlg_list.get(i).getPub_time()
 						+" 内容："+nlg_list.get(i).getContent());
 			}
 		}else{

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 import model.Tel;
+import model.User;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -12,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import utils.statics.JsonUtil;
 import dao.impl.TelDaoImpl;
 
 public class TelDaoImplTest {
@@ -29,8 +31,9 @@ public class TelDaoImplTest {
 	public void setUp() throws Exception {
 		tdi = new TelDaoImpl();
 		tel = new Tel();
-		tel.setFriendName("17866476644@tourism");
-		tel.setOwner("asdf");
+		tel.setFriendName("17866476633@tourism");
+		tel.setOwner("17866476644@tourism");
+		System.out.println(JsonUtil.object2JsonString(tel));
 	}
 
 	@After
@@ -59,13 +62,13 @@ public class TelDaoImplTest {
 
 	@Test
 	public void testList() {
-		ArrayList<Tel> tel_list = tdi.ListFriend(tel);
+		ArrayList<User> user_list = tdi.ListAll(tel);
 		
-		for(int i=0;i<tel_list.size();i++){
+		for(int i=0;i<user_list.size();i++){
 			if(i==0){
 				System.out.println("Ыљгаеп"+tel.getOwner());
 			}
-			System.out.println(i+":"+tel_list.get(i).getFriendName());
+			System.out.println(i+":"+user_list.get(i).getName()+" phone:"+user_list.get(i).getPhone());
 		}
 //	fail("Not yet implemented");
 	}

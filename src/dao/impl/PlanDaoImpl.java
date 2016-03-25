@@ -115,4 +115,34 @@ public class PlanDaoImpl implements PlanDao{
 		return dbu.getFlag();
 	}
 
+	@Override
+	public boolean AdjustPlan(Plan plan) {
+		// TODO Auto-generated method stub
+		DBUtil dbu = new DBUtil();
+		Connection conn = dbu.getConnection();
+		String sql = "UPDATE t_plan SET _pl_name=?,_destination=?,_price=?,_people_num=?,_content=?,"
+				+ "_created_time=?,_start_time=?,_end_time=?,_active_time=? WHERE _pl_name=?";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, plan.getPl_name());
+			ps.setString(2, plan.getDestination());
+			ps.setDouble(3, plan.getPrice());
+			ps.setInt(4, plan.getPeople_num());
+			ps.setString(5, plan.getContent());
+			ps.setString(6, plan.getCreated_time());
+			ps.setString(7, plan.getStart_time());
+			ps.setString(8, plan.getEnd_time());
+			ps.setString(9, plan.getActive_time());
+			ps.setString(10, plan.getPl_name());
+			int i = ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			dbu.setFlag(false);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		dbu.Commite();
+		return dbu.getFlag();
+	}
+
 }

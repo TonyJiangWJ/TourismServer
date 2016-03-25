@@ -78,4 +78,24 @@ public class KnowledgeDaoImpl implements KnowledgeDao{
 		return null;
 	}
 
+	@Override
+	public boolean AdjustNLG(Knowledge nlg) {
+		DBUtil dbu = new DBUtil();
+		Connection conn = dbu.getConnection();
+		String sql = "UPDATE t_knowledge SET _nlg_name=?,_pub_time=?,_content=? WHERE _nlg_name=? ";
+		try{
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, nlg.getNlg_name());
+			ps.setString(2, nlg.getPub_time());
+			ps.setString(3, nlg.getContent());
+			ps.setString(4, nlg.getNlg_name());
+			int i = ps.executeUpdate();
+		}catch(SQLException e){
+			dbu.setFlag(false);
+			e.printStackTrace();
+		}
+		dbu.Commite();
+		return dbu.getFlag();
+	}
+
 }

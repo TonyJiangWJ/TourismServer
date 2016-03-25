@@ -9,4 +9,5 @@ public interface PlanDao {
 	public boolean DeletePlan(Plan plan);
 	public ArrayList<Plan> ListPlan();
 	public boolean AddPeople(Plan plan);
+	public boolean AdjustPlan(Plan plan);
 }

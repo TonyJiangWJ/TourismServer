@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import utils.DBUtil;
 import utils.statics.DateUtil;
@@ -33,16 +34,14 @@ public class UserDaoImpl implements UserDao{
 			int i = ps.executeUpdate();
 			System.out.println("更新了"+i+"条信息");
 			ps.close();
-			dbu.Commite();
-			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			dbu.setFlag(false);
 			e.printStackTrace();
 			
 		}
-		dbu.RollBack();
-		return false;
+		dbu.Commite();
+		return dbu.getFlag();
 	}
 
 	@Override
@@ -118,6 +117,35 @@ public class UserDaoImpl implements UserDao{
 		}
 		dbu.Close();
 		return null;
+	}
+
+	@Override
+	public User GetUserInfo(User usr) {
+		// TODO Auto-generated method stub
+		DBUtil dbUtil = new DBUtil();
+		User user = new User();
+		Connection conn = dbUtil.getConnection();
+		String sql = "SELECT * FROM t_user WHERE _username='"+usr.getUserName()+"'";
+		try {
+			Statement stat = conn.createStatement();
+			ResultSet rs = stat.executeQuery(sql);
+			if(rs.next()){
+				user.setNickName(rs.getString("_nickname"));
+				user.setName(rs.getString("_name"));
+				user.setPhone(rs.getString("_phone"));
+				user.setSex(rs.getString("_sex"));
+				user.setUserName(rs.getString("_username"));
+				user.setImage(rs.getString("_image"));
+			}
+			stat.close();
+			rs.close();
+		} catch (SQLException e) {
+			dbUtil.setFlag(false);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		dbUtil.Close();
+		return user;
 	}
 	
 }
