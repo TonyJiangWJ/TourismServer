@@ -21,10 +21,10 @@ public class CommentDaoImpl implements CommentDao{
 		dbu = new DBUtil();
 		conn = dbu.getConnection();
 		if(comt.getType()==UTools.NLG){
-			table="t_nlg_comment";
+			table = "t_nlg_comment";
 			name = "_nlg_name";
 		}else{
-			table="t_topic_comment";
+			table = "t_topic_comment";
 			name = "_tpc_name";
 		}
 	}
@@ -55,10 +55,12 @@ public class CommentDaoImpl implements CommentDao{
 	public boolean DeleteComment(Comment comt) {
 		// TODO Auto-generated method stub
 		SetConnection(comt);
-		String sql = "DELETE FROM "+table+" WHERE "+name+"=?";
+		String sql = "DELETE FROM "+table+" WHERE "+name+"=? AND _username=? AND _content=?";
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, comt.getName());
+			ps.setString(2, comt.getUserName());
+			ps.setString(3, comt.getContent());
 			int i = ps.executeUpdate();
 			ps.close();
 		} catch (SQLException e) {
@@ -75,7 +77,7 @@ public class CommentDaoImpl implements CommentDao{
 		// TODO Auto-generated method stub
 		ArrayList<Comment> comt_list = new ArrayList<Comment>();
 		SetConnection(comt);
-		String sql = "SELECT * FROM "+table;
+		String sql = "SELECT * FROM "+table+" WHERE "+name+"='"+comt.getName()+"'";
 		try{
 			Statement stat = conn.createStatement();
 			ResultSet rs = stat.executeQuery(sql);
