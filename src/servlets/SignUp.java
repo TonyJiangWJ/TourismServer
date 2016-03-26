@@ -45,8 +45,9 @@ public class SignUp extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
-		String jsonString = EncodeUtil.toUTF8(request.getParameter("SignUpInfo"));
+		String jsonString = request.getParameter("SignUpInfo");
 		if(jsonString!=null){
+			jsonString = EncodeUtil.toUTF8(jsonString);
 			User signUser = (User)JsonUtil.jsonString2Object(jsonString, User.class);
 			if(DaoFactory.getUserDao().SignUp(signUser)){
 				JSONObject json = new JSONObject();
@@ -60,23 +61,30 @@ public class SignUp extends HttpServlet {
 				out.write(json.toString());
 			}
 		}else{
-			String userName = EncodeUtil.toUTF8(request.getParameter("userName"));
-			String password = EncodeUtil.toUTF8(request.getParameter("password"));
-			User signUser = new User();
-			signUser.setCreated_time(DateUtil.GetDateString());
-			signUser.setImage("default");
-			signUser.setName("null");
-			signUser.setNickName("null");
-			signUser.setPassword(password);
-			signUser.setSex("ÄÐ");
-			signUser.setPhone(userName);
-			signUser.setUserName(userName+"@tourism");
-			
-			if(userName!=null&&DaoFactory.getUserDao().SignUp(signUser)){
-				JSONObject json = new JSONObject();
-				json.put("status", 200);
-				json.put("result", "success");
-				out.write(json.toString());
+			String userName = request.getParameter("userName");
+			String password = request.getParameter("password");
+			if(userName!=null&&password!=null){
+				User signUser = new User();
+				signUser.setCreated_time(DateUtil.GetDateString());
+				signUser.setImage("default");
+				signUser.setName("null");
+				signUser.setNickName("null");
+				signUser.setPassword(password);
+				signUser.setSex("ÄÐ");
+				signUser.setPhone(userName);
+				signUser.setUserName(userName+"@tourism");
+				
+				if(userName!=null&&DaoFactory.getUserDao().SignUp(signUser)){
+					JSONObject json = new JSONObject();
+					json.put("status", 200);
+					json.put("result", "success");
+					out.write(json.toString());
+				}else{
+					JSONObject json = new JSONObject();
+					json.put("status", 202);
+					json.put("result", "fail");
+					out.write(json.toString());
+				}
 			}else{
 				JSONObject json = new JSONObject();
 				json.put("status", 202);

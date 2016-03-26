@@ -7,4 +7,5 @@ public interface UserDao {
 	public boolean Check(User usr);
 	public User GetUserInfo(User usr);
 	public User Login(User usr);
+	public boolean UpdateInfo(User usr);
 }

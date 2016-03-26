@@ -147,5 +147,37 @@ public class UserDaoImpl implements UserDao{
 		dbUtil.Close();
 		return user;
 	}
+
+	@Override
+	public boolean UpdateInfo(User usr) {
+		// TODO Auto-generated method stub
+		DBUtil dbu = new DBUtil();
+		Connection conn = dbu.getConnection();
+		String sql = "UPDATE t_user SET _username=?,_password=?,_nickname=?,_created_time=?,"
+				+ "_image=?,_phone=?,_sex=?,_name=? WHERE _username=?";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, usr.getUserName());
+			ps.setString(2, usr.getPassword());
+			ps.setString(3, usr.getNickName());
+			ps.setString(4, usr.getImage());
+			ps.setString(5, usr.getPhone());
+			ps.setString(6, usr.getSex());
+			ps.setString(7, usr.getName());
+			ps.setString(8, usr.getUserName());
+			//System.out.println(sql);
+			int i = ps.executeUpdate();
+			System.out.println("更新了"+i+"条信息");
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			dbu.setFlag(false);
+			e.printStackTrace();
+			
+		}
+		dbu.Commite();
+		return dbu.getFlag();
+	
+	}
 	
 }

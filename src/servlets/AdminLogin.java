@@ -13,6 +13,7 @@ import net.sf.json.JSONArray;
 import utils.statics.JsonUtil;
 import factories.DaoFactory;
 import model.Administer;
+import model.HttpResult;
 
 /**
  * Servlet implementation class AdminLogin
@@ -50,6 +51,12 @@ public class AdminLogin extends HttpServlet {
 		Administer resultAdmin = DaoFactory.getAdminDao().Login(loginAdmin);
 		String jsonString = JsonUtil.object2JsonString(resultAdmin);
 		out.write(jsonString);
+		if(jsonString==null){
+			HttpResult hResult = new HttpResult();
+			hResult.setStatus(202);
+			hResult.setResult("fail");
+			out.write(JsonUtil.object2JsonString(hResult));
+		}
 	}
 
 }

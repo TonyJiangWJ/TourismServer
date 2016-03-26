@@ -57,7 +57,15 @@ public class Login extends HttpServlet {
 			User result = DaoFactory.getUserDao().Login(loginUser);
 			
 			String jsonString = JsonUtil.object2JsonString(result);
-			out.write(jsonString);
+			if(jsonString==null){
+				HttpResult hResult = new HttpResult();
+				hResult.setStatus(202);
+				hResult.setResult("fail");
+				out.write(JsonUtil.object2JsonString(hResult));
+			}else{
+				out.write(jsonString);
+			}
+			
 		}else{
 			HttpResult hResult = new HttpResult();
 			hResult.setStatus(202);
