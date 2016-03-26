@@ -13,6 +13,7 @@ import model.HttpResult;
 import model.Plan;
 import factories.DaoFactory;
 import utils.statics.EncodeUtil;
+import utils.statics.JsonUtil;
 
 /**
  * Servlet implementation class DeletePlan
@@ -50,6 +51,7 @@ public class DeletePlan extends HttpServlet {
 		HttpResult hResult = new HttpResult();
 		hResult.setStatus(flag?200:202);
 		hResult.setResult(flag?"success":"fail");
+		out.write(JsonUtil.object2JsonString(hResult));
 	}
 
 	/**

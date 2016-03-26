@@ -1,7 +1,8 @@
-package servlets.Plan;
+package servlets.Topic;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,21 +12,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.HttpResult;
 import model.Plan;
-import utils.statics.EncodeUtil;
+import model.Topic;
 import utils.statics.JsonUtil;
 import factories.DaoFactory;
 
 /**
- * Servlet implementation class AddPeople
+ * Servlet implementation class ListTopic
  */
-@WebServlet("/AddPeople")
-public class AddPeople extends HttpServlet {
+@WebServlet("/ListTopic")
+public class ListTopic extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddPeople() {
+    public ListTopic() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,22 +37,16 @@ public class AddPeople extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
-		String str = request.getParameter("planName");
-		boolean flag = false;
-		if(str!=null){
-			str = EncodeUtil.toUTF8(str);
-			Plan plan = new Plan();
-			plan.setPl_name(str);
-			if(DaoFactory.getPlanDao().AddPeople(plan)){
-				flag=true;
-			}
+		
+		ArrayList<Topic> tpc_list = DaoFactory.getTopicDao().ListTopic(); 
+		if(tpc_list==null){
+			HttpResult hResult = new HttpResult();
+			hResult.setResult("fail");
+			hResult.setStatus(202);
+			out.write(JsonUtil.object2JsonString(hResult));
 		}else{
-			flag=false;
+			out.write(JsonUtil.javaList2JsonList(tpc_list));
 		}
-		HttpResult hResult = new HttpResult();
-		hResult.setStatus(flag?200:202);
-		hResult.setResult(flag?"success":"fail");
-		out.write(JsonUtil.object2JsonString(hResult));
 	}
 
 	/**
@@ -59,7 +54,6 @@ public class AddPeople extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
 		doGet(request, response);
 	}
 
