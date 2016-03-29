@@ -47,8 +47,12 @@ public class Login extends HttpServlet {
 		String userName = request.getParameter("userName");
 		if(userName!=null)
 		{
-			String last = userName.substring(11);
-			if(last.equals("")){
+			if(userName.length()>=11){
+				String last = userName.substring(11);
+				if(last.equals("")){
+					userName+="@tourism";
+				}
+			}else{
 				userName+="@tourism";
 			}
 			User loginUser = new User();
@@ -56,13 +60,14 @@ public class Login extends HttpServlet {
 			loginUser.setPassword(request.getParameter("password"));
 			User result = DaoFactory.getUserDao().Login(loginUser);
 			
-			String jsonString = JsonUtil.object2JsonString(result);
-			if(jsonString==null){
+			
+			if(result==null){
 				HttpResult hResult = new HttpResult();
 				hResult.setStatus(202);
 				hResult.setResult("fail");
 				out.write(JsonUtil.object2JsonString(hResult));
 			}else{
+				String jsonString = JsonUtil.object2JsonString(result);
 				out.write(jsonString);
 			}
 			

@@ -19,7 +19,7 @@ public class PlanDaoImpl implements PlanDao{
 		DBUtil dbu = new DBUtil();
 		Connection conn = dbu.getConnection();
 		String sql = "INSERT INTO t_plan (_pl_name,_destination,_price,_people_num,_content,"
-				+ "_created_time,_start_time,_end_time,_active_time) VALUES(?,?,?,?,?,?,?,?,?)";
+				+ "_created_time,_start_time,_end_time,_active_time,_type) VALUES(?,?,?,?,?,?,?,?,?,?)";
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, plan.getPl_name());
@@ -31,6 +31,7 @@ public class PlanDaoImpl implements PlanDao{
 			ps.setString(7, plan.getStart_time());
 			ps.setString(8, plan.getEnd_time());
 			ps.setString(9, plan.getActive_time());
+			ps.setString(10, plan.getType());
 			int i = ps.executeUpdate();
 			ps.close();
 		} catch (SQLException e) {
@@ -83,6 +84,7 @@ public class PlanDaoImpl implements PlanDao{
 				temp.setPeople_num(rs.getInt("_people_num"));
 				temp.setPrice(rs.getFloat("_price"));
 				temp.setStart_time(rs.getString("_start_time"));
+				temp.setType(rs.getString("_type"));
 				pl_list.add(temp);
 			}
 			rs.close();
@@ -121,7 +123,7 @@ public class PlanDaoImpl implements PlanDao{
 		DBUtil dbu = new DBUtil();
 		Connection conn = dbu.getConnection();
 		String sql = "UPDATE t_plan SET _pl_name=?,_destination=?,_price=?,_people_num=?,_content=?,"
-				+ "_created_time=?,_start_time=?,_end_time=?,_active_time=? WHERE _pl_name=?";
+				+ "_created_time=?,_start_time=?,_end_time=?,_active_time=?,_type=? WHERE _pl_name=?";
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, plan.getPl_name());
@@ -133,7 +135,8 @@ public class PlanDaoImpl implements PlanDao{
 			ps.setString(7, plan.getStart_time());
 			ps.setString(8, plan.getEnd_time());
 			ps.setString(9, plan.getActive_time());
-			ps.setString(10, plan.getPl_name());
+			ps.setString(10, plan.getType());
+			ps.setString(11, plan.getPl_name());
 			int i = ps.executeUpdate();
 			ps.close();
 		} catch (SQLException e) {

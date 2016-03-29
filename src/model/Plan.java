@@ -10,6 +10,15 @@ public class Plan {
 	private String start_time;
 	private String end_time;
 	private String active_time;
+	private String type;
+	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 	public String getPl_name() {
 		return pl_name;
 	}
