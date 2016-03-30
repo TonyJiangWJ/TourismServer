@@ -59,14 +59,14 @@ public class TelDaoImplTest {
 
 	@Test
 	public void testList() {
-		ArrayList<Tel> tel_list = tdi.ListFriend(tel);
-		
-		for(int i=0;i<tel_list.size();i++){
-			if(i==0){
-				System.out.println("ËùÓÐÕß"+tel.getOwner());
-			}
-			System.out.println(i+":"+tel_list.get(i).getFriendName());
-		}
+//		ArrayList<Tel> tel_list = tdi.ListFriend(tel);
+//		
+//		for(int i=0;i<tel_list.size();i++){
+//			if(i==0){
+//				System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"+tel.getOwner());
+//			}
+//			System.out.println(i+":"+tel_list.get(i).getFriendName());
+//		}
 //	fail("Not yet implemented");
 	}
 }

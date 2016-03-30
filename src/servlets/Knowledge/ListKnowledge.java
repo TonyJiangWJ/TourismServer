@@ -41,9 +41,9 @@ public class ListKnowledge extends HttpServlet {
 		
 		ArrayList<Knowledge> nlg_list = DaoFactory.getKnowledgeDao().listKnowledges(); 
 		if(nlg_list==null){
-			HttpResult hResult = new HttpResult();
-			hResult.setResult("fail");
-			hResult.setStatus(202);
+			HttpResult hResult = new HttpResult(false);
+//			hResult.setResult("fail");
+//			hResult.setStatus(202);
 			out.write(JsonUtil.object2JsonString(hResult));
 		}else{
 //			JSONArray jsonArray = new JSONArray();
