@@ -100,5 +100,32 @@ public class PackagesDaoImpl implements PackagesDao{
 		dbu.Close();
 		return pkg_list;
 	}
+	@Override
+	public boolean AdjustPackage(Packages pkg) {
+		// TODO Auto-generated method stub
+		SetConnection();
+		String sql = "UPDATE t_package SET _pkg_name=?,_package_id=?,_activity_id=?,_pub_time=?,"
+				+ "_active_time=?,_price=?,_content=? WHERE _package_id=?";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, pkg.getPkg_name());
+			ps.setString(2, UTools.getUniqueId(pkg.getPkg_name(), pkg.getPub_time()));
+			ps.setString(3, pkg.getActivity_id());
+			ps.setString(4, pkg.getPub_time());
+			ps.setString(5, pkg.getActive_time());
+			ps.setDouble(6, pkg.getPrice());
+			ps.setString(7, pkg.getContent());
+			ps.setString(8, pkg.getPackage_id());
+			int i = ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			dbu.setFlag(false);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		dbu.Commite();
+		
+		return dbu.getFlag();
+	}
 
 }
