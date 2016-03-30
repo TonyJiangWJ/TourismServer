@@ -25,5 +25,16 @@ public class DaoFactory {
 	public static UserDao getUserDao(){
 		return new UserDaoImpl();
 	}
-	
+	public static CompanyDao getCompanyDao(){
+		return new CompanyDaoImpl();
+	}
+	public static PackagesDao getPackagesDao(){
+		return new PackagesDaoImpl();
+	}
+	public static PurchaseDao getPurchaseDao(){
+		return new PurchaseDaoImpl();
+	}
+	public static ActivityDao getActivityDao(){
+		return new ActivityDaoImpl();
+	}
 }

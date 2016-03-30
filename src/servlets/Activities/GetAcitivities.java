@@ -1,4 +1,4 @@
-package servlets.Topic;
+package servlets.Activities;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,24 +10,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.HttpResult;
-import model.Plan;
-import model.Topic;
 import utils.statics.JsonTool;
 import utils.statics.JsonUtil;
 import factories.DaoFactory;
+import model.Activities;
+import model.HttpResult;
 
 /**
- * Servlet implementation class ListTopic
+ * Servlet implementation class GetAcitivities
  */
-@WebServlet("/ListTopic")
-public class ListTopic extends HttpServlet {
+@WebServlet("/GetAcitivities")
+public class GetAcitivities extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListTopic() {
+    public GetAcitivities() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,17 +37,15 @@ public class ListTopic extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
-		
-		ArrayList<Topic> tpc_list = DaoFactory.getTopicDao().ListTopic(); 
-		if(tpc_list==null){
+		ArrayList<Activities> act_list  = DaoFactory.getActivityDao().ListActivities();
+		if(act_list!=null){
+			out.write(JsonTool.JavaArray2Json(act_list));
+		}else{
 			HttpResult hResult = new HttpResult();
 			hResult.setResult("fail");
 			hResult.setStatus(202);
 			out.write(JsonUtil.object2JsonString(hResult));
-		}else{
-			//out.write(JsonUtil.javaList2JsonList(tpc_list));
-			out.write(JsonTool.JavaArray2Json(tpc_list));
-//			out.write(JsonTool.toBean(jsonStr, clazz) (tpc_list));
+			
 		}
 	}
 

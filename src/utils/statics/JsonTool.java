@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import model.Topic;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -465,5 +467,18 @@ public class JsonTool {
         return sb.toString();
     }
 
+    public static String JavaArray2Json(ArrayList list){
+    	JSONArray jsonArray = new JSONArray();
+    	for(int i=0;i<list.size();i++){
+    		try {
+				JSONObject jsonObject = new JSONObject(toJson(list.get(i)));
+				jsonArray.put(jsonObject);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	return jsonArray.toString();
+    }
 }
 

@@ -20,12 +20,19 @@ public class CommentDaoImpl implements CommentDao{
 	private void SetConnection(Comment comt){
 		dbu = new DBUtil();
 		conn = dbu.getConnection();
-		if(comt.getType()==UTools.NLG){
+		switch (comt.getType()) {
+		case UTools.NLG:
 			table = "t_nlg_comment";
 			name = "_nlg_name";
-		}else{
+			break;
+		case UTools.TPC:
 			table = "t_topic_comment";
 			name = "_tpc_name";
+			break;
+		case UTools.PKG:
+			
+		default:
+			break;
 		}
 	}
 	@Override
